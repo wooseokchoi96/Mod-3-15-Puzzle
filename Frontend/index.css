@@ -1,0 +1,21 @@
+body {
+  display: grid;
+  grid-template-columns: 4fr 4fr;
+}
+
+#board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.tile {
+  border-style: solid;
+  border-width: 1px;
+  height: 12.5vw;
+}
+
+.blanktile {
+  border-style: solid;
+  border-width: 1px;
+  height: 12.5vw;
+}
