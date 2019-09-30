@@ -1,6 +1,5 @@
 let array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, ' '];
 const board = document.querySelector('#board');
-const tiles = board.querySelectorAll('.tile');
 
 function createGrid(){
     let counter = 0;
@@ -18,10 +17,23 @@ function createGrid(){
     }
 }
 
-document.querySelector('#board').addEventListener("click", e => {
-    console.log(e.target);
-})
+function switchTiles(e) {
+    if ((e.target.dataset.x === blankTile.dataset.x || e.target.dataset.y === blankTile.dataset.y) && (e.target !== blankTile)){
+        blankTile.innerText = e.target.innerText;
+        blankTile.className = 'tile';
+        e.target.innerText = ' ';
+        e.target.className = 'blanktile';
+        blankTile = e.target;
+    }
+}
+
 
 // Run
 createGrid();
 //
+
+let blankTile = board.querySelector('.blanktile');
+
+board.addEventListener("click", e => {
+    switchTiles(e)
+})
