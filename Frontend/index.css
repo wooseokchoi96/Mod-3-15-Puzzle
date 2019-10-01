@@ -1,6 +1,17 @@
-body {
+#container {
   display: grid;
   grid-template-columns: 4fr 4fr;
+  grid-template-areas: 
+    "left right";
+  justify-items: center;
+}
+
+#leftContent {
+    grid-area: left;
+}
+
+#rightContent {
+    grid-area: right;
 }
 
 #board {

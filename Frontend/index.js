@@ -23,6 +23,7 @@ function createGrid(){
 }
 
 function switchMultipleTiles(e) {
+    let currentTimer = document.querySelector('#timer');
     if ((e.target.dataset.x === blankTile.dataset.x 
         || e.target.dataset.y === blankTile.dataset.y) 
         && (e.target !== blankTile)){
@@ -33,7 +34,8 @@ function switchMultipleTiles(e) {
             }
         if (checkWin()) {
             clearInterval(timer);
-            setTimeout(() => {alert('You Won!');}, 1000);
+            setTimeout(() => {alert(`You Won! Time: ${currentTimer.innerText}`);}, 1000);
+            // fetch('https://localhost3000/users')
         }        
     }
 }
