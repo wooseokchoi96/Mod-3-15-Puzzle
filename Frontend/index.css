@@ -20,7 +20,6 @@ body {
 }
   
 .blanktile {
-  
   border-width: 1px;
   height: 12.5vw;
 }
@@ -33,5 +32,4 @@ body {
 .even{
   color: aliceblue;
   background-color: rgb(68, 70, 63);
-  
 }
