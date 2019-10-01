@@ -32,6 +32,7 @@ function switchMultipleTiles(e) {
                 xSpacesAway ? moveHorizontal(xSpacesAway) : moveVertical(ySpacesAway);
             }
         if (checkWin()) {
+            clearInterval(timer);
             setTimeout(() => {alert('You Won!');}, 1000);
         }        
     }
