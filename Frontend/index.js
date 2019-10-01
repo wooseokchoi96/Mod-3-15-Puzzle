@@ -73,8 +73,6 @@ function checkWin(){
     return arraysEqual(currentArray, array);
 }
 
-
-
 function randomizeBoard(){
     for (let i = 0; i < 100 ; i++) {
         let direction = Math.floor(Math.random() * 4)
@@ -92,6 +90,16 @@ function randomizeBoard(){
             if (blankTile.dataset.y < 3) { moveVertical(1) }
         }
     }
+    timer();
+}
+
+function timer(){
+    let time = document.querySelector("#timer")
+    let seconds = 0
+    timer = setInterval(function(){
+        seconds += 1
+        time.innerText = seconds 
+    }, 1000)
 }
 
 
@@ -107,9 +115,11 @@ let blankTile = board.querySelector('.blanktile');
 board.addEventListener("click", e => {
     switchMultipleTiles(e)
 })
+
 document.addEventListener("click", e =>{
     // console.log(e.target.innerText)
     if (e.target.innerText === "Randomize"){
         randomizeBoard()
     }
 })
+//
