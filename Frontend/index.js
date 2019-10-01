@@ -17,13 +17,38 @@ function createGrid(){
     }
 }
 
-function switchTiles(e) {
-    if ((e.target.dataset.x === blankTile.dataset.x || e.target.dataset.y === blankTile.dataset.y) && (e.target !== blankTile)){
-        blankTile.innerText = e.target.innerText;
-        blankTile.className = 'tile';
-        e.target.innerText = ' ';
-        e.target.className = 'blanktile';
-        blankTile = e.target;
+function isX(xSpacesAway, ySpacesAway){
+    if (xSpacesAway){
+        if(xSpacesAway < 0){
+            return "-x"
+        } else {
+            return "x"
+        }   
+    }
+}
+
+function switchTile(e, xOrY, i) {
+    if (xOrY === "x"){
+        if (xSpacesAway < 0){
+
+        } else {
+
+        }
+    } else {
+
+    }
+}
+
+function switchMultipleTiles(e) {
+    if ((e.target.dataset.x === blankTile.dataset.x 
+        || e.target.dataset.y === blankTile.dataset.y) 
+        && (e.target !== blankTile)){
+            let xSpacesAway = e.target.dataset.x - blankTile.dataset.x
+            let ySpacesAway = e.target.dataset.y - blankTile.dataset.y
+            let xOrY = isX(xSpacesAway, ySpacesAway);
+            for (let i = Math.abs(xSpacesAway + ySpacesAway); i > 0  ; i--){
+               switchTile(e, xOrY, i);
+            }
     }
 }
 
@@ -35,5 +60,6 @@ createGrid();
 let blankTile = board.querySelector('.blanktile');
 
 board.addEventListener("click", e => {
-    switchTiles(e)
+    // switchTiles(e)
+    switchMultipleTiles(e)
 })
