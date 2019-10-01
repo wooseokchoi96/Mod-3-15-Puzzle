@@ -134,7 +134,7 @@ board.addEventListener("click", e => {
 
 document.addEventListener("click", e =>{
     // console.log(e.target.innerText)
-    if (e.target.innerText === "Randomize"){
+    if (e.target.innerText === "Play"){
         randomizeBoard()
     }
 })
