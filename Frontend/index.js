@@ -17,27 +17,9 @@ function createGrid(){
     }
 }
 
-function isX(xSpacesAway, ySpacesAway){
-    if (xSpacesAway){
-        if(xSpacesAway < 0){
-            return "-x"
-        } else {
-            return "x"
-        }   
-    }
-}
 
-function switchTile(e, xOrY, i) {
-    if (xOrY === "x"){
-        if (xSpacesAway < 0){
 
-        } else {
 
-        }
-    } else {
-
-    }
-}
 
 function switchMultipleTiles(e) {
     if ((e.target.dataset.x === blankTile.dataset.x 
@@ -45,13 +27,46 @@ function switchMultipleTiles(e) {
         && (e.target !== blankTile)){
             let xSpacesAway = e.target.dataset.x - blankTile.dataset.x
             let ySpacesAway = e.target.dataset.y - blankTile.dataset.y
-            let xOrY = isX(xSpacesAway, ySpacesAway);
+          
             for (let i = Math.abs(xSpacesAway + ySpacesAway); i > 0  ; i--){
-               switchTile(e, xOrY, i);
+                xSpacesAway ? moveHorizontal(xSpacesAway) : moveVertical(ySpacesAway);
             }
     }
 }
 
+
+function moveHorizontal(x){
+    if (x > 0) {
+        swapTile = board.querySelector(`[data-y='${blankTile.dataset.y}'][data-x='${parseInt(blankTile.dataset.x) + 1}']`)
+        console.log(swapTile)
+    } else {
+        swapTile = board.querySelector(`[data-y='${blankTile.dataset.y}'][data-x='${blankTile.dataset.x - 1}']`)
+        console.log(swapTile)
+    }
+    change(swapTile)
+}
+
+
+function moveVertical(y){
+    if (y > 0) {
+        swapTile = board.querySelector(`[data-x='${blankTile.dataset.x}'][data-y='${parseInt(blankTile.dataset.y) + 1}']`)
+        console.log(swapTile)
+    } else {
+        swapTile = board.querySelector(`[data-x='${blankTile.dataset.x}'][data-y='${blankTile.dataset.y - 1}']`)
+        console.log(swapTile)
+    }
+    change(swapTile)
+}
+
+
+function change(swapTile){
+    blankTile.innerText = swapTile.innerText
+    blankTile.className = 'tile'
+    swapTile.innerText = " "
+    swapTile.className = "blanktile"
+    blankTile = board.querySelector('.blanktile');
+
+}
 
 // Run
 createGrid();
