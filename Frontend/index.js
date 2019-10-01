@@ -7,10 +7,10 @@ function createGrid(){
         for (let x=0; x < 4; x++){
             if (counter < 15){
                 board.insertAdjacentHTML("beforeend", `
-                    <div class="tile" data-x=${x} data-y=${y}>${array[counter]}</div>`);
+                    <div class="tile" data-type="boardTile" data-x=${x} data-y=${y}>${array[counter]}</div>`);
             } else{
                 board.insertAdjacentHTML("beforeend", `
-                    <div class="blanktile" data-x=${x} data-y=${y}>${array[counter]}</div>`);
+                    <div class="blanktile" data-type="boardTile" data-x=${x} data-y=${y}>${array[counter]}</div>`);
             }
             counter++;
         }
@@ -68,6 +68,32 @@ function change(swapTile){
 
 }
 
+
+
+function randomizeBoard(){
+    for (let i = 0; i < 100 ; i++) {
+        let direction = Math.floor(Math.random() * 4)
+
+        if(direction === 0){
+            if (blankTile.dataset.x > 0) { moveHorizontal(-1)}
+        }
+        else if(direction === 1) {
+            if (blankTile.dataset.x < 3) { moveHorizontal(1) }
+        }
+        else if (direction === 2) {
+            if (blankTile.dataset.y > 0) { moveVertical(-1) }
+        }
+        else if (direction === 3) {
+            if (blankTile.dataset.y < 3) { moveVertical(1) }
+        }
+    }
+}
+
+
+
+
+
+
 // Run
 createGrid();
 //
@@ -75,6 +101,11 @@ createGrid();
 let blankTile = board.querySelector('.blanktile');
 
 board.addEventListener("click", e => {
-    // switchTiles(e)
     switchMultipleTiles(e)
+})
+document.addEventListener("click", e =>{
+    // console.log(e.target.innerText)
+    if (e.target.innerText === "Randomize"){
+        randomizeBoard()
+    }
 })
