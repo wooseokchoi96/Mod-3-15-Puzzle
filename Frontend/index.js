@@ -31,6 +31,9 @@ function switchMultipleTiles(e) {
             for (let i = Math.abs(xSpacesAway + ySpacesAway); i > 0  ; i--){
                 xSpacesAway ? moveHorizontal(xSpacesAway) : moveVertical(ySpacesAway);
             }
+        if (checkWin()) {
+            setTimeout(() => {alert('You Won!');}, 1000);
+        }        
     }
 }
 
@@ -125,9 +128,6 @@ let blankTile = board.querySelector('.blanktile');
 
 board.addEventListener("click", e => {
     switchMultipleTiles(e)
-    if (checkWin()) {
-        alert('You Won!')
-    }
 })
 
 document.addEventListener("click", e =>{

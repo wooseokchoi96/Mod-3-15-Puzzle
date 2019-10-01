@@ -14,9 +14,11 @@ body {
   border-width: 1px;
   height: 12.5vw;
   border-radius: 10%;
-  
+  font-size: 11vw;
+  text-align: center;
+  border-color: white;
 }
-
+  
 .blanktile {
   
   border-width: 1px;
@@ -24,16 +26,12 @@ body {
 }
 
 .odd{
+  color: black;
   background-color: rgb(255, 115, 0);
-  /* color: black; */
-  color: aliceblue;
-  vertical-align: middle;
-  text-align: center;
 }
 
 .even{
   color: aliceblue;
   background-color: rgb(68, 70, 63);
-  vertical-align: middle;
-  text-align: center;
+  
 }
