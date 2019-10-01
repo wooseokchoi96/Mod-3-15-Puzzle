@@ -73,6 +73,32 @@ function checkWin(){
     return arraysEqual(currentArray, array);
 }
 
+
+
+function randomizeBoard(){
+    for (let i = 0; i < 100 ; i++) {
+        let direction = Math.floor(Math.random() * 4)
+
+        if(direction === 0){
+            if (blankTile.dataset.x > 0) { moveHorizontal(-1)}
+        }
+        else if(direction === 1) {
+            if (blankTile.dataset.x < 3) { moveHorizontal(1) }
+        }
+        else if (direction === 2) {
+            if (blankTile.dataset.y > 0) { moveVertical(-1) }
+        }
+        else if (direction === 3) {
+            if (blankTile.dataset.y < 3) { moveVertical(1) }
+        }
+    }
+}
+
+
+
+
+
+
 // Run
 createGrid();
 
@@ -81,4 +107,9 @@ let blankTile = board.querySelector('.blanktile');
 board.addEventListener("click", e => {
     switchMultipleTiles(e)
 })
-//
+document.addEventListener("click", e =>{
+    // console.log(e.target.innerText)
+    if (e.target.innerText === "Randomize"){
+        randomizeBoard()
+    }
+})
