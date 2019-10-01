@@ -6,8 +6,13 @@ function createGrid(){
     for (let y=0; y < 4; y++){
         for (let x=0; x < 4; x++){
             if (counter < 15){
-                board.insertAdjacentHTML("beforeend", `
-                    <div class="tile" data-type='boardTile' data-x=${x} data-y=${y}>${array[counter]}</div>`);
+                if(counter % 2 === 0 ){
+                    board.insertAdjacentHTML("beforeend", `
+                        <div class="tile odd" data-type='boardTile' data-x=${x} data-y=${y}>${array[counter]}</div>`);
+                }else{
+                    board.insertAdjacentHTML("beforeend", `
+                        <div class="tile even" data-type='boardTile' data-x=${x} data-y=${y}>${array[counter]}</div>`);
+                }
             } else{
                 board.insertAdjacentHTML("beforeend", `
                     <div class="blanktile" data-type='boardTile' data-x=${x} data-y=${y}>${array[counter]}</div>`);
@@ -26,9 +31,6 @@ function switchMultipleTiles(e) {
             for (let i = Math.abs(xSpacesAway + ySpacesAway); i > 0  ; i--){
                 xSpacesAway ? moveHorizontal(xSpacesAway) : moveVertical(ySpacesAway);
             }
-        if (checkWin()){
-            console.log('You Won!')
-        }
     }
 }
 
@@ -74,7 +76,7 @@ function checkWin(){
 }
 
 function randomizeBoard(){
-    for (let i = 0; i < 100 ; i++) {
+    for (let i = 0; i < 1000 ; i++) {
         let direction = Math.floor(Math.random() * 4)
 
         if(direction === 0){
@@ -94,11 +96,20 @@ function randomizeBoard(){
 }
 
 function timer(){
-    let time = document.querySelector("#timer")
-    let seconds = 0
+    let sec = document.querySelector("#secondstimer")
+    let seconds = 00
+    let minutes = 00
+    let min = document.querySelector("#minutestimer")
     timer = setInterval(function(){
         seconds += 1
-        time.innerText = seconds 
+        if (seconds >= 60){
+            seconds = 00
+            minutes += 01
+            min.innerText = minutes
+        }
+        sec.innerText = seconds 
+    
+
     }, 1000)
 }
 
@@ -114,6 +125,9 @@ let blankTile = board.querySelector('.blanktile');
 
 board.addEventListener("click", e => {
     switchMultipleTiles(e)
+    if (checkWin()) {
+        alert('You Won!')
+    }
 })
 
 document.addEventListener("click", e =>{
