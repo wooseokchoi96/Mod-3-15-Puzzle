@@ -2,6 +2,7 @@
 
 let array = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', ''];
 const board = document.querySelector('#board');
+let allMoves = []
 const playButton = document.querySelector('#play');
 const nameForm = document.querySelector('#enterName');
 const yourHighScores = document.querySelector('#yourHighScores');
@@ -127,21 +128,35 @@ function checkWin(){
 function randomizeBoard(){
     for (let i = 0; i < 1000 ; i++) {
         let direction = Math.floor(Math.random() * 4)
-
-        if(direction === 0){
-            if (blankTile.dataset.x > 0) { moveHorizontal(-1)}
-        }
-        else if(direction === 1) {
-            if (blankTile.dataset.x < 3) { moveHorizontal(1) }
-        }
-        else if (direction === 2) {
-            if (blankTile.dataset.y > 0) { moveVertical(-1) }
-        }
-        else if (direction === 3) {
-            if (blankTile.dataset.y < 3) { moveVertical(1) }
-        }
+        moveByNumber(direction)
     }
 }
+
+function moveByNumber(direction) {
+    allMoves.push(direction)
+    if (direction === 0) {
+        if (blankTile.dataset.x > 0) { moveHorizontal(-1) }
+    }
+    else if (direction === 1) {
+        if (blankTile.dataset.x < 3) { moveHorizontal(1) }
+    }
+    else if (direction === 2) {
+        if (blankTile.dataset.y > 0) { moveVertical(-1) }
+    }
+    else if (direction === 3) {
+        if (blankTile.dataset.y < 3) { moveVertical(1) }
+    }
+}
+
+function solve(moves) {
+    moves.forEach(move => {
+        if (move % 2 === 0) {
+            moveByNumber(parseInt(move) + 1)
+        }
+        else {
+            moveByNumber(parseInt(move) - 1)
+        }
+    })
 
 function timer(){
     if(typeof currentTime !== 'undefined'){clearInterval(currentTime);}
