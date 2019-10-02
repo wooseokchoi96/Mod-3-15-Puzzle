@@ -62,3 +62,11 @@
   transition: all 0.8s ease-in-out;
   transform-origin: center;
 }
+
+.scores {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+        "left right";
+    justify-items: center;   
+}

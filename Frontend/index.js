@@ -123,9 +123,9 @@ function showTime(counter){
     return hours+':'+minutes+':'+seconds;
 }
 
-// function renderScores(data){
-//     document.insertAdjacentHTML("beforeend", data);
-// }
+function renderScores(data){
+    // document.insertAdjacentHTML("beforeend", data);
+}
 
 
 // Run
@@ -142,7 +142,8 @@ document.addEventListener("submit", e => {
         body: JSON.stringify({name: nameInput})
     })
     .then(resp => resp.json())
-    .then(console.log)
+    .then(consol.log)
+    // .then(renderScores)
 })
 
 document.addEventListener("click", e =>{
