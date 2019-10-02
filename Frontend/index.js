@@ -157,6 +157,7 @@ function solve(moves) {
             moveByNumber(parseInt(move) - 1)
         }
     })
+}
 
 function timer(){
     if(typeof currentTime !== 'undefined'){clearInterval(currentTime);}
@@ -196,5 +197,3 @@ function renderMyScores(scores, location){
         location.insertAdjacentHTML("beforeend",str);
     })
 }
-
-
