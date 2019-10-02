@@ -23,7 +23,7 @@ function createGrid(){
 }
 
 function switchMultipleTiles(e) {
-    let currentTimer = document.querySelector('#timer');
+    let timerDiv = document.querySelector('#timer');
     if ((e.target.dataset.x === blankTile.dataset.x 
         || e.target.dataset.y === blankTile.dataset.y) 
         && (e.target !== blankTile)){
@@ -33,8 +33,8 @@ function switchMultipleTiles(e) {
                 xSpacesAway ? moveHorizontal(xSpacesAway) : moveVertical(ySpacesAway);
             }
         if (checkWin()) {
-            clearInterval(timer);
-            setTimeout(() => {alert(`You Won! Time: ${currentTimer.innerText}`);}, 1000);
+            clearInterval(currentTime);
+            setTimeout(() => {alert(`You Won! Time: ${timerDiv.innerText}`);}, 1000);
             // fetch('https://localhost3000/users')
         }        
     }
@@ -98,29 +98,30 @@ function randomizeBoard(){
             if (blankTile.dataset.y < 3) { moveVertical(1) }
         }
     }
-    timer();
 }
 
 function timer(){
+    if(typeof currentTime !== 'undefined'){clearInterval(currentTime);}
     let counter = 0;
-    let currentTimer = document.querySelector('#timer');
+    let timerDiv = document.querySelector('#timer');
+    timerDiv.innerText = '00:00:00';
 
-    timer = setInterval(function(){
+    currentTime = setInterval(function(){
         counter += 1;
-        currentTimer.innerText = showTime(counter);
+        timerDiv.innerText = showTime(counter);
     }, 1000)
-
-    function showTime(counter){
-        let hours   = Math.floor(counter / 3600);
-        let minutes = Math.floor((counter - (hours * 3600)) / 60);
-        let seconds = counter - (hours * 3600) - (minutes * 60);
-        if (hours   < 10) {hours   = "0"+hours;}
-        if (minutes < 10) {minutes = "0"+minutes;}
-        if (seconds < 10) {seconds = "0"+seconds;}
-        return hours+':'+minutes+':'+seconds;
-    }
+    showTime(counter);
 }
 
+function showTime(counter){
+    let hours   = Math.floor(counter / 3600);
+    let minutes = Math.floor((counter - (hours * 3600)) / 60);
+    let seconds = counter - (hours * 3600) - (minutes * 60);
+    if (hours   < 10) {hours   = "0"+hours;}
+    if (minutes < 10) {minutes = "0"+minutes;}
+    if (seconds < 10) {seconds = "0"+seconds;}
+    return hours+':'+minutes+':'+seconds;
+}
 
 
 
@@ -131,14 +132,13 @@ createGrid();
 
 let blankTile = board.querySelector('.blanktile');
 
-board.addEventListener("click", e => {
-    switchMultipleTiles(e)
-})
-
 document.addEventListener("click", e =>{
-    // console.log(e.target.innerText)
     if (e.target.innerText === "Play"){
-        randomizeBoard()
+        randomizeBoard();
+        timer();
+        board.addEventListener("click", e => {
+            switchMultipleTiles(e)
+        })
     }
 })
 //
