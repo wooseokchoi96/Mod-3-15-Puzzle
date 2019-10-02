@@ -1,5 +1,42 @@
+// Run
+
 let array = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', ''];
 const board = document.querySelector('#board');
+const playButton = document.querySelector('#play');
+const nameForm = document.querySelector('#enterName');
+const yourHighScores = document.querySelector('#yourHighScores');
+
+playButton.disabled = true;
+
+createGrid();
+getHighestScores();
+
+let blankTile = board.querySelector('.blanktile');
+
+enterName.addEventListener("submit", e => {
+    e.preventDefault();
+    playButton.disabled = false;
+    yourHighScores.className = 'rightContent';
+    let nameInput = e.target.firstElementChild.value;
+    fetch('http://localhost:3000/users/login',{
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({name: nameInput})
+    })
+    .then(resp => resp.json())
+    .then(scores => renderMyScores(scores, document.querySelector('#yourHighScores ol')))
+    enterName.reset();
+})
+
+playButton.addEventListener("click", e =>{
+    randomizeBoard();
+    timer();
+    board.addEventListener("click", e => {
+        switchMultipleTiles(e)
+    })
+})
+
+//
 
 function createGrid(){
     let counter = 0;
@@ -20,6 +57,12 @@ function createGrid(){
             counter++;
         }
     }
+}
+
+function getHighestScores(){
+    fetch('http://localhost:3000/scores/top')
+    .then(resp => resp.json())
+    .then(scores => renderAllScores(scores, document.querySelector('#allHighScores ol')))
 }
 
 function switchMultipleTiles(e) {
@@ -124,50 +167,19 @@ function showTime(counter){
 }
 
 function renderAllScores(scores, location){
-    console.log(scores)
-    scores.forEach( score => {
+    scores = scores.slice(0,10);
+    scores.forEach( (score, index) => {
         str = `<li>${score.user.name} : ${score.score}</li>`;
         location.insertAdjacentHTML("beforeend",str);
     })
 }
 
 function renderMyScores(scores, location){
-    scores.sortedScores.forEach( score => {
+    scores.sortedScores = scores.sortedScores.slice(0,10);
+    scores.sortedScores.forEach((score,index) => {
         str = `<li>${score}</li>`;
         location.insertAdjacentHTML("beforeend",str);
     })
 }
 
-
-// Run
-createGrid();
-
-// Get highest scores
-fetch('http://localhost:3000/scores/top')
-.then(resp => resp.json())
-.then(scores => renderAllScores(scores, document.querySelector('#allHighScores ol')))
-
-let blankTile = board.querySelector('.blanktile');
-
-document.addEventListener("submit", e => {
-    e.preventDefault();
-    let nameInput = e.target.firstElementChild.value;
-    fetch('http://localhost:3000/users/login',{
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({name: nameInput})
-    })
-    .then(resp => resp.json())
-    .then(scores => renderMyScores(scores, document.querySelector('#yourHighScores ol')))
-})
-
-document.addEventListener("click", e =>{
-    if (e.target.innerText === "Play"){
-        randomizeBoard();
-        timer();
-        board.addEventListener("click", e => {
-            switchMultipleTiles(e)
-        })
-    }
-})
 

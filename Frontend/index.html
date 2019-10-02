@@ -11,7 +11,7 @@
     <body>
         <div id='navbar'>
             <h1 class='leftContent'>The Fifteen Puzzle</h1>
-            <form class='rightContent' id='enterName'>
+            <form autocomplete="off" class='rightContent' id='enterName'>
                 Please enter your name: <input type="text" name="name" placeholder='name'>
                 <input type="submit" value="Submit">
             </form>
@@ -20,7 +20,7 @@
         <div id='container'>
             <div class="leftContent">
                 <div id="board"></div>
-                <button type="button">Play</button>
+                <button id="play" type="button">Play</button>
             </div>
             <div class="rightContent">
                 <label>Timer: </label> 
@@ -35,7 +35,7 @@
                     <div class='leftContent' id='allHighScores'>Highest Scores
                         <ol></ol>
                     </div>
-                    <div class='rightContent' id='yourHighScores' data-show='false'>Your High Scores
+                    <div class='rightContent hidden' id='yourHighScores'>Your High Scores
                         <ol></ol>
                     </div>
                 </div>
