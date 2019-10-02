@@ -123,14 +123,27 @@ function showTime(counter){
     return hours+':'+minutes+':'+seconds;
 }
 
-
-
+// function renderScores(data){
+//     document.insertAdjacentHTML("beforeend", data);
+// }
 
 
 // Run
 createGrid();
 
 let blankTile = board.querySelector('.blanktile');
+
+document.addEventListener("submit", e => {
+    e.preventDefault();
+    let nameInput = e.target.firstElementChild.value;
+    fetch('http://localhost:3000/users/login',{
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({name: nameInput})
+    })
+    .then(resp => resp.json())
+    .then(console.log)
+})
 
 document.addEventListener("click", e =>{
     if (e.target.innerText === "Play"){
@@ -141,3 +154,4 @@ document.addEventListener("click", e =>{
         })
     }
 })
+

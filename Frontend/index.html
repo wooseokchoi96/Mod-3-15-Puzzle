@@ -9,13 +9,20 @@
         <script src="./index.js" defer></script>
     </head>
     <body>
-        <h1>The Fifteen Puzzle</h1>
+        <div id='navbar'>
+            <h1 class='leftContent'>The Fifteen Puzzle</h1>
+            <form class='rightContent' id='enterName'>
+                Please enter your name: <input type="text" name="name" placeholder='name'>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <br>
         <div id='container'>
-            <div id="leftContent">
+            <div class="leftContent">
                 <div id="board"></div>
                 <button type="button">Play</button>
             </div>
-            <div id="rightContent">
+            <div class="rightContent">
                 <div id="timer">00:00:00</div>
                 <div id="rules">
                     <p>

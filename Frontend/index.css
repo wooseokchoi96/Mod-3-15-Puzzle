@@ -1,3 +1,15 @@
+#navbar {
+    display: grid;
+    grid-template-columns: 4fr 4fr;
+    grid-template-areas: 
+        "left right";
+    justify-items: center;
+}
+
+#enterName {
+    padding-top: 4vw;
+}
+
 #container {
   display: grid;
   grid-template-columns: 4fr 4fr;
@@ -6,11 +18,11 @@
   justify-items: center;
 }
 
-#leftContent {
+.leftContent {
     grid-area: left;
 }
 
-#rightContent {
+.rightContent {
     grid-area: right;
 }
 
