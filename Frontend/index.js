@@ -131,14 +131,24 @@ createGrid();
 
 let blankTile = board.querySelector('.blanktile');
 
-board.addEventListener("click", e => {
-    switchMultipleTiles(e)
-})
 
 document.addEventListener("click", e =>{
     // console.log(e.target.innerText)
     if (e.target.innerText === "Play"){
         randomizeBoard()
+        board.addEventListener("click", e => {
+            switchMultipleTiles(e)
+        })
     }
 })
-//
+//fetch(to the route, {
+//     method: 'POST',
+//     headers: {
+//         // Whatever
+//     },
+//     body: {
+//         // name: a variable that holds the users input
+//     }
+// })
+// .then(res => res.json())
+// .then(do whatever you want to do, i believe in you, pokemon!)
