@@ -123,13 +123,29 @@ function showTime(counter){
     return hours+':'+minutes+':'+seconds;
 }
 
-function renderScores(data){
-    // document.insertAdjacentHTML("beforeend", data);
+function renderAllScores(scores, location){
+    console.log(scores)
+    scores.forEach( score => {
+        str = `<li>${score.user.name} : ${score.score}</li>`;
+        location.insertAdjacentHTML("beforeend",str);
+    })
+}
+
+function renderMyScores(scores, location){
+    scores.sortedScores.forEach( score => {
+        str = `<li>${score}</li>`;
+        location.insertAdjacentHTML("beforeend",str);
+    })
 }
 
 
 // Run
 createGrid();
+
+// Get highest scores
+fetch('http://localhost:3000/scores/top')
+.then(resp => resp.json())
+.then(scores => renderAllScores(scores, document.querySelector('#allHighScores ol')))
 
 let blankTile = board.querySelector('.blanktile');
 
@@ -142,8 +158,7 @@ document.addEventListener("submit", e => {
         body: JSON.stringify({name: nameInput})
     })
     .then(resp => resp.json())
-    .then(consol.log)
-    // .then(renderScores)
+    .then(scores => renderMyScores(scores, document.querySelector('#yourHighScores ol')))
 })
 
 document.addEventListener("click", e =>{
