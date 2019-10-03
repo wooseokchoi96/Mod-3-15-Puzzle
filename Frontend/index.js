@@ -3,6 +3,7 @@
 let array = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', ''];
 const board = document.querySelector('#board');
 let allMoves = []
+let userMoves = []
 const playButton = document.querySelector('#play');
 const solveButton = document.querySelector('#solve')
 const nameForm = document.querySelector('#enterName');
@@ -34,30 +35,17 @@ document.addEventListener("click", e => {
         timer();
         board.addEventListener("click", e => {
             switchMultipleTiles(e)
-            allMoves = [];
         })
     } else if (e.target === solveButton){
-        solve(allMoves);
+        let newarr = [...allMoves, ...userMoves]
+        solve(newarr);
         allMoves = [];
+        userMoves = [];
     } else if (e.target.value === 'Log Out'){
         document.location.reload(true);
     }
 })
 
-// playButton.addEventListener("click", e =>{
-//     randomizeBoard();
-//     timer();
-//     board.addEventListener("click", e => {
-//         switchMultipleTiles(e)
-//     allMoves = []
-//     })
-// })
-// solveButton.addEventListener("click", e =>{
-//     solve(allMoves)
-//     allMoves = []
-// })
-
-//
 function hideSignIn(nameInput){
     let inputName = document.querySelector("#enterName");
     inputName.innerHTML = `
@@ -104,7 +92,22 @@ function switchMultipleTiles(e) {
             let xSpacesAway = e.target.dataset.x - blankTile.dataset.x
             let ySpacesAway = e.target.dataset.y - blankTile.dataset.y
             for (let i = Math.abs(xSpacesAway + ySpacesAway); i > 0  ; i--){
-                xSpacesAway ? moveHorizontal(xSpacesAway) : moveVertical(ySpacesAway);
+                if (xSpacesAway){
+                    moveHorizontal(xSpacesAway)
+                    if (xSpacesAway > 0){
+                        userMoves.push(1)
+                    }else{
+                        userMoves.push(0)
+                    }
+                }else{
+                    moveVertical(ySpacesAway)
+                    if (ySpacesAway > 0) {
+                        userMoves.push(3)
+                    } else {
+                        userMoves.push(2)
+                    }
+                }
+                
             }
         if (checkWin()) {
             clearInterval(currentTime);
