@@ -7,6 +7,7 @@ const playButton = document.querySelector('#play');
 const solveButton = document.querySelector('#solve')
 const nameForm = document.querySelector('#enterName');
 const yourHighScores = document.querySelector('#yourHighScores');
+const allHighScores = document.querySelector('#allHighScores');
 
 playButton.disabled = true;
 solveButton.disabled = true;
@@ -68,7 +69,7 @@ function hideSignIn(nameInput){
     let inputName = document.querySelector("#enterName");
     inputName.innerHTML = `
         <form id='inputName'>
-            Welcome ${nameInput} !
+            Welcome <span>${nameInput}</span>!
             <input type="submit" value="Log Out">
         </form>
     `
@@ -102,7 +103,7 @@ function getHighestScores(){
 }
 
 function switchMultipleTiles(e) {
-    let user = document.querySelector("#navbar > div > h1").innerText
+    let user = document.querySelector("#enterName > span").innerText
     let timerDiv = document.querySelector('#timer');
     if ((e.target.dataset.x === blankTile.dataset.x 
         || e.target.dataset.y === blankTile.dataset.y) 
@@ -117,6 +118,7 @@ function switchMultipleTiles(e) {
             setTimeout(() => {alert(`You Won! Time: ${timerDiv.innerText}`);}, 500);
             addSpin()
             removeSpin()
+            optoRenderScore(timerDiv.innerText, user)
             persistScore(timerDiv.innerText, user)
         }        
     }
@@ -170,29 +172,37 @@ function randomizeBoard(){
     }
 }
 
-function moveByNumber(direction) {
+function moveByNumber(direction, solveMode = false) {
     
     if (direction === 0) {
         if (blankTile.dataset.x > 0) { 
-            allMoves.push(direction)
+            if (!solveMode){
+                allMoves.push(direction)
+            }
             moveHorizontal(-1) 
         }
     }
     else if (direction === 1) {
         if (blankTile.dataset.x < 3) { 
-            allMoves.push(direction)
+            if (!solveMode) {
+                allMoves.push(direction)
+            }
             moveHorizontal(1) 
         }
     }
     else if (direction === 2) {
         if (blankTile.dataset.y > 0) { 
-            allMoves.push(direction)
+            if (!solveMode) {
+                allMoves.push(direction)
+            }
             moveVertical(-1) 
         }
     }
     else if (direction === 3) {
         if (blankTile.dataset.y < 3) { 
-            allMoves.push(direction)
+            if (!solveMode) {
+                allMoves.push(direction)
+            }
              moveVertical(1) 
             }
     }
@@ -203,10 +213,10 @@ function solve(moves) {
     let cycle = setInterval(function(){
         if (newmoves.length){
             if (newmoves[0] % 2 === 0) {
-                moveByNumber(parseInt(newmoves[0]) + 1)
+                moveByNumber(parseInt(newmoves[0]) + 1, true)
             }
             else {
-                moveByNumber(parseInt(newmoves[0]) - 1)
+                moveByNumber(parseInt(newmoves[0]) - 1, true)
             }
             newmoves.shift()
         }else{
@@ -274,7 +284,7 @@ function persistScore(score, username) {
         headers: {
             'Content-Type': 'application/json'
         }
-    }).then(console.log("complete"))
+    })
 }
 
 function addSpin(){
@@ -291,4 +301,21 @@ function removeSpin(){
             ts.classList.remove("spin")
         })
     }, 800)
+}
+
+function optoRenderScore(score, username){
+    // let yourList = document.querySelector("#yourHighScores > ol")
+    let allList = document.querySelector("#allHighScores > ol")
+    for(let i = 0; i < allList.length; i++){
+        
+        if (allList[i].innerText.slice(-8) > score){
+            let str = `<li>${username} : ${score}</li>`;
+            allList.insertBefore(str, allList[i]);
+            allList.pop();
+            break;
+        }
+    }
+    // yourHighScores.forEach({})
+
+    // document.querySelector("#yourHighScores > ol").insertAdjacentHTML("beforeend", `<li>${username}</li>`)
 }
