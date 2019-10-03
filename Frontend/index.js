@@ -23,14 +23,7 @@ enterName.addEventListener("submit", e => {
     yourHighScores.className = 'rightContent';
     let nameInput = e.target.firstElementChild.value;
     let inputButton = e.target.querySelector("input[type=submit]");
-    fetch('http://localhost:3000/users/login',{
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({name: nameInput})
-    })
-    .then(resp => resp.json())
-    .then(scores => renderMyScores(scores, document.querySelector('#yourHighScores ol')))
-    enterName.reset();
+    fetchYourScores(nameInput)
     if (inputButton.value === "Submit"){ hideSignIn(nameInput); }
 })
 
@@ -118,7 +111,6 @@ function switchMultipleTiles(e) {
             setTimeout(() => {alert(`You Won! Time: ${timerDiv.innerText}`);}, 500);
             addSpin()
             removeSpin()
-            optoRenderScore(timerDiv.innerText, user)
             persistScore(timerDiv.innerText, user)
         }        
     }
@@ -285,6 +277,19 @@ function persistScore(score, username) {
             'Content-Type': 'application/json'
         }
     })
+    .then(resp => resp.json())
+    .then(data => {
+        // console.log(data);
+
+    clearHighScores(document.querySelector("#allHighScores > ol"))
+    getHighestScores()
+    clearHighScores(document.querySelector("#yourHighScores > ol"))
+    fetchYourScores(data.user.name)
+
+    })
+        
+        
+    // .then(document.querySelector('#yourHighScores').className = 'rightContent')
 }
 
 function addSpin(){
@@ -303,19 +308,17 @@ function removeSpin(){
     }, 800)
 }
 
-function optoRenderScore(score, username){
-    // let yourList = document.querySelector("#yourHighScores > ol")
-    let allList = document.querySelector("#allHighScores > ol")
-    for(let i = 0; i < allList.length; i++){
-        
-        if (allList[i].innerText.slice(-8) > score){
-            let str = `<li>${username} : ${score}</li>`;
-            allList.insertBefore(str, allList[i]);
-            allList.pop();
-            break;
-        }
-    }
-    // yourHighScores.forEach({})
 
-    // document.querySelector("#yourHighScores > ol").insertAdjacentHTML("beforeend", `<li>${username}</li>`)
+function clearHighScores(location){
+    location.innerHTML = ""
+}
+
+function fetchYourScores(nameInput){
+    fetch('http://localhost:3000/users/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: nameInput })
+    })
+        .then(resp => resp.json())
+        .then(scores => renderMyScores(scores, document.querySelector('#yourHighScores > ol')))
 }

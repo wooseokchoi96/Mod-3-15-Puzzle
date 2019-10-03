@@ -10,5 +10,6 @@ class ScoresController < ApplicationController
     score = Score.new(user_id: user.id, score: params[:score])
     # debugger
     score.save
+    render json: score.as_json(include: :user)
   end
 end
