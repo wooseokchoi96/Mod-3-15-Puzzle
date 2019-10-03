@@ -204,6 +204,7 @@ function moveByNumber(direction, solveMode = false) {
 }
 
 function solve(moves) {
+    
     newmoves = moves.reverse()
     let cycle = setInterval(function(){
         if (newmoves.length){
@@ -218,14 +219,6 @@ function solve(moves) {
             clearInterval(cycle)
         }
     }, 100)
-    // newmoves.forEach(move => {
-    //     if (move % 2 === 0) {
-    //         moveByNumber(parseInt(move) + 1)
-    //     }
-    //     else {
-    //         moveByNumber(parseInt(move) - 1)
-    //     }
-    // })
 }
 
 function timer(){
