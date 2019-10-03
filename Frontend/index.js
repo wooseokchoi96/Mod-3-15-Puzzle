@@ -28,6 +28,7 @@ enterName.addEventListener("submit", e => {
     .then(resp => resp.json())
     .then(scores => renderMyScores(scores, document.querySelector('#yourHighScores ol')))
     enterName.reset();
+    hideSignIn(nameInput)
 })
 
 playButton.addEventListener("click", e =>{
@@ -40,9 +41,15 @@ playButton.addEventListener("click", e =>{
 })
 solveButton.addEventListener("click", e =>{
     solve(allMoves)
+    allMoves = []
 })
 
 //
+function hideSignIn(nameInput){
+    let box = document.querySelector(".rightContent")
+    box.innerHTML = `<h1>${nameInput}</h1><button id="Log Out" type="button">Log Out</button>`
+
+}
 
 function createGrid(){
     let counter = 0;
@@ -83,8 +90,11 @@ function switchMultipleTiles(e) {
             }
         if (checkWin()) {
             clearInterval(currentTime);
-            setTimeout(() => {alert(`You Won! Time: ${timerDiv.innerText}`);}, 1000);
-            // fetch('https://localhost3000/users')
+            setTimeout(() => {alert(`You Won! Time: ${timerDiv.innerText}`);}, 500);
+            addSpin()
+            removeSpin()
+            
+            // persistScore()
         }        
     }
 }
@@ -180,7 +190,6 @@ function solve(moves) {
             clearInterval(cycle)
         }
     }, 5)
-    allMoves = []
     // newmoves.forEach(move => {
     //     if (move % 2 === 0) {
     //         moveByNumber(parseInt(move) + 1)
@@ -216,7 +225,7 @@ function showTime(counter){
 
 function renderAllScores(scores, location){
     scores = scores.slice(0,10);
-    scores.forEach( (score, index) => {
+    scores.forEach( (score) => {
         str = `<li>${score.user.name} : ${score.score}</li>`;
         location.insertAdjacentHTML("beforeend",str);
     })
@@ -224,8 +233,29 @@ function renderAllScores(scores, location){
 
 function renderMyScores(scores, location){
     scores.sortedScores = scores.sortedScores.slice(0,10);
-    scores.sortedScores.forEach((score,index) => {
+    scores.sortedScores.forEach((score) => {
         str = `<li>${score}</li>`;
         location.insertAdjacentHTML("beforeend",str);
     })
+
+
+}
+function persistScore(score) {
+    //fetch post request with new score and optimistically add score to high scores if it qualifies
+}
+
+function addSpin(){
+    let ts = document.querySelectorAll(".tile")
+    ts.forEach((ts)=>{
+        ts.classList.add("spin")
+    })
+}
+
+function removeSpin(){
+    setTimeout(function(){
+        let ts = document.querySelectorAll(".tile")
+        ts.forEach((ts) => {
+            ts.classList.remove("spin")
+        })
+    }, 800)
 }

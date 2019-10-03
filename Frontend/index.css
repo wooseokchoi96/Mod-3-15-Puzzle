@@ -3,8 +3,7 @@
 #navbar {
     display: grid;
     grid-template-columns: 4fr 4fr;
-    grid-template-areas: 
-        "left right";
+    grid-template-areas: "left right";
     justify-items: center;
     background-color: black;
     color: white;
@@ -31,6 +30,7 @@
 
 .rightContent {
     grid-area: right;
+    display: inline-block;
 }
 
 #board {
@@ -64,20 +64,20 @@
   background-color: rgb(68, 70, 63);
 }
 
-.selected img {
-  transform: rotate(360deg);
-  transition: all 0.8s ease-in-out;
-  transform-origin: center;
-}
 
 .scores {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-areas: 
-        "left right";
+    grid-template-areas: "left right";
     justify-items: center;   
 }
 
 .hidden {
     display: none;
+}
+
+.spin {
+  transform: rotate(360deg);
+  transition: all 0.8s ease-in-out;
+  transform-origin: center;
 }
