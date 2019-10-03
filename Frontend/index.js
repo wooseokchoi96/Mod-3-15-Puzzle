@@ -37,7 +37,7 @@ document.addEventListener("click", e => {
             switchMultipleTiles(e)
         })
     } else if (e.target === solveButton){
-        let newarr = [...allMoves, ...userMoves]
+        let newarr = shrink([...allMoves, ...userMoves])
         solve(newarr);
         allMoves = [];
         userMoves = [];
@@ -217,7 +217,7 @@ function solve(moves) {
         }else{
             clearInterval(cycle)
         }
-    }, 5)
+    }, 100)
     // newmoves.forEach(move => {
     //     if (move % 2 === 0) {
     //         moveByNumber(parseInt(move) + 1)
@@ -324,4 +324,20 @@ function fetchYourScores(nameInput){
     })
         .then(resp => resp.json())
         .then(scores => renderMyScores(scores, document.querySelector('#yourHighScores > ol')))
+}
+
+function shrink(array){
+   let swtch = false
+   while(swtch === false){
+        swtch = true 
+        for(let i = 1; i < array.length; i++){
+            if (array[i - 1] + array[i] === 1 || array[i - 1] + array[i] === 5){
+                swtch = false
+                array = [...array.slice(0,i-1),  ...array.slice(i+1)]
+                i += array.length + 10000
+            }
+        }
+
+   }
+   return array
 }
