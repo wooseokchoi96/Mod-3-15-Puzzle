@@ -79,6 +79,7 @@ function getHighestScores(){
 }
 
 function switchMultipleTiles(e) {
+    let user = document.querySelector("#navbar > div > h1").innerText
     let timerDiv = document.querySelector('#timer');
     if ((e.target.dataset.x === blankTile.dataset.x 
         || e.target.dataset.y === blankTile.dataset.y) 
@@ -93,8 +94,7 @@ function switchMultipleTiles(e) {
             setTimeout(() => {alert(`You Won! Time: ${timerDiv.innerText}`);}, 500);
             addSpin()
             removeSpin()
-            
-            // persistScore()
+            persistScore(timerDiv.innerText, user)
         }        
     }
 }
@@ -240,8 +240,18 @@ function renderMyScores(scores, location){
 
 
 }
-function persistScore(score) {
+function persistScore(score, username) {
     //fetch post request with new score and optimistically add score to high scores if it qualifies
+    fetch("http://localhost:3000/scores/new", {
+        method: 'POST', 
+        body: JSON.stringify({ 
+            score: score, 
+            username: username}
+            ), 
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(console.log("complete"))
 }
 
 function addSpin(){

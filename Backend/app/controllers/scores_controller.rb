@@ -5,5 +5,10 @@ class ScoresController < ApplicationController
     render json: scores.as_json(include: :user)
   end
 
-
+  def new
+    user = User.find_by(name: params[:username])
+    score = Score.new(user_id: user.id, score: params[:score])
+    # debugger
+    score.save
+  end
 end

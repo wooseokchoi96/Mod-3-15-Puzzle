@@ -3,5 +3,6 @@ Rails.application.routes.draw do
   # get 'scores/score'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   get '/scores/top', to: 'scores#top'
+  post '/scores/new',  to: 'scores#new'
   post '/users/login', to: 'users#login'
 end
