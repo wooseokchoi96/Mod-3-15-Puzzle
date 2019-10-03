@@ -9,6 +9,7 @@ const nameForm = document.querySelector('#enterName');
 const yourHighScores = document.querySelector('#yourHighScores');
 
 playButton.disabled = true;
+solveButton.disabled = true;
 
 createGrid();
 getHighestScores();
@@ -20,6 +21,7 @@ enterName.addEventListener("submit", e => {
     playButton.disabled = false;
     yourHighScores.className = 'rightContent';
     let nameInput = e.target.firstElementChild.value;
+    let inputButton = e.target.querySelector("input[type=submit]");
     fetch('http://localhost:3000/users/login',{
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
@@ -28,27 +30,48 @@ enterName.addEventListener("submit", e => {
     .then(resp => resp.json())
     .then(scores => renderMyScores(scores, document.querySelector('#yourHighScores ol')))
     enterName.reset();
-    hideSignIn(nameInput)
+    if (inputButton.value === "Submit"){ hideSignIn(nameInput); }
 })
 
-playButton.addEventListener("click", e =>{
-    randomizeBoard();
-    timer();
-    board.addEventListener("click", e => {
-        switchMultipleTiles(e)
-    allMoves = []
-    })
+document.addEventListener("click", e => {
+    if (e.target === playButton){
+        solveButton.disabled = false;
+        randomizeBoard();
+        timer();
+        board.addEventListener("click", e => {
+            switchMultipleTiles(e)
+            allMoves = [];
+        })
+    } else if (e.target === solveButton){
+        solve(allMoves);
+        allMoves = [];
+    } else if (e.target.value === 'Log Out'){
+        document.location.reload(true);
+    }
 })
-solveButton.addEventListener("click", e =>{
-    solve(allMoves)
-    allMoves = []
-})
+
+// playButton.addEventListener("click", e =>{
+//     randomizeBoard();
+//     timer();
+//     board.addEventListener("click", e => {
+//         switchMultipleTiles(e)
+//     allMoves = []
+//     })
+// })
+// solveButton.addEventListener("click", e =>{
+//     solve(allMoves)
+//     allMoves = []
+// })
 
 //
 function hideSignIn(nameInput){
-    let box = document.querySelector(".rightContent")
-    box.innerHTML = `<h1>${nameInput}</h1><button id="Log Out" type="button">Log Out</button>`
-
+    let inputName = document.querySelector("#enterName");
+    inputName.innerHTML = `
+        <form id='inputName'>
+            Welcome ${nameInput} !
+            <input type="submit" value="Log Out">
+        </form>
+    `
 }
 
 function createGrid(){
