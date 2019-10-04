@@ -2,16 +2,13 @@
 
 let array = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', ''];
 const board = document.querySelector('#board');
-let allMoves = []
-let userMoves = []
+let allMoves = [];
+let userMoves = [];
 const playButton = document.querySelector('#play');
-const solveButton = document.querySelector('#solve')
+const solveButton = document.querySelector('#solve');
 const nameForm = document.querySelector('#enterName');
 const yourHighScores = document.querySelector('#yourHighScores');
 const allHighScores = document.querySelector('#allHighScores');
-
-playButton.disabled = true;
-solveButton.disabled = true;
 
 createGrid();
 getHighestScores();
@@ -33,18 +30,29 @@ document.addEventListener("click", e => {
         solveButton.disabled = false;
         randomizeBoard();
         timer();
-        board.addEventListener("click", e => {
-            switchMultipleTiles(e)
-        })
+        board.addEventListener("click", allowMoveTiles);
     } else if (e.target === solveButton){
-        let newarr = shrink([...allMoves, ...userMoves])
+        clearInterval(currentTime);
+        solveButton.disabled = true;
+        let newarr = shrink([...allMoves, ...userMoves]);
         solve(newarr);
+        board.removeEventListener("click", allowMoveTiles);
         allMoves = [];
         userMoves = [];
     } else if (e.target.value === 'Log Out'){
         document.location.reload(true);
     }
 })
+
+
+
+
+
+////////////////////////////////////////////////////////////////////
+
+function allowMoveTiles(event){
+    switchMultipleTiles(event);
+}
 
 function hideSignIn(nameInput){
     let inputName = document.querySelector("#enterName");
@@ -218,7 +226,7 @@ function solve(moves) {
         }else{
             clearInterval(cycle)
         }
-    }, 100)
+    }, 5)
 }
 
 function timer(){
