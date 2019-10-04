@@ -34,7 +34,6 @@ document.addEventListener("click", e => {
         blankTile = board.querySelector('.blanktile');
         solveButton.disabled = false;
         randomizeBoard();
-        console.log(allMoves)
         timer();
         board.addEventListener("click", allowMoveTiles);
     } else if (e.target === solveButton){
