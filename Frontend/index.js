@@ -5,6 +5,7 @@ const board = document.querySelector('#board');
 let allMoves = [];
 let userMoves = [];
 const playButton = document.querySelector('#play');
+const moveCounter = document.querySelector('#moves');
 const solveButton = document.querySelector('#solve');
 const nameForm = document.querySelector('#enterName');
 const yourHighScores = document.querySelector('#yourHighScores');
@@ -106,6 +107,7 @@ function switchMultipleTiles(e) {
     if ((e.target.dataset.x === blankTile.dataset.x 
         || e.target.dataset.y === blankTile.dataset.y) 
         && (e.target !== blankTile)){
+            moveCounter.innerText = parseInt(moveCounter.innerText) + 1 
             let xSpacesAway = e.target.dataset.x - blankTile.dataset.x
             let ySpacesAway = e.target.dataset.y - blankTile.dataset.y
             for (let i = Math.abs(xSpacesAway + ySpacesAway); i > 0  ; i--){
@@ -235,7 +237,7 @@ function solve(moves) {
         }else{
             clearInterval(cycle)
         }
-    }, 5)
+    }, 500)
 }
 
 function timer(){
