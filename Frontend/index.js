@@ -1,3 +1,5 @@
+// Run
+
 let array = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', ''];
 const board = document.querySelector('#board');
 let allMoves = [];
@@ -25,18 +27,24 @@ enterName.addEventListener("submit", e => {
 
 document.addEventListener("click", e => {
     if (e.target === playButton){
+        allMoves = [];
+        userMoves = [];
+        clearGrid();
+        createGrid();
+        blankTile = board.querySelector('.blanktile');
         solveButton.disabled = false;
         randomizeBoard();
+        console.log(allMoves)
         timer();
         board.addEventListener("click", allowMoveTiles);
     } else if (e.target === solveButton){
         clearInterval(currentTime);
         solveButton.disabled = true;
+        playButton.disabled = true;
         let newarr = shrink([...allMoves, ...userMoves]);
         solve(newarr);
         board.removeEventListener("click", allowMoveTiles);
-        allMoves = [];
-        userMoves = [];
+        setTimeout(() => {playButton.disabled = false}, 2000);
     } else if (e.target.value === 'Log Out'){
         document.location.reload(true);
     }
@@ -60,6 +68,10 @@ function hideSignIn(nameInput){
             <input type="submit" value="Log Out">
         </form>
     `
+}
+
+function clearGrid(){
+    board.innerHTML = '';
 }
 
 function createGrid(){
@@ -174,7 +186,7 @@ function randomizeBoard(){
 }
 
 function moveByNumber(direction, solveMode = false) {
-    
+
     if (direction === 0) {
         if (blankTile.dataset.x > 0) { 
             if (!solveMode){
